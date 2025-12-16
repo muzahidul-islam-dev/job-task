@@ -5,8 +5,6 @@ import {
   Card,
   CardAction,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -35,8 +33,7 @@ export default function Home() {
       <div>
         <Card>
           <CardHeader>
-            <CardTitle>Card Title</CardTitle>
-            <CardDescription>Card Description</CardDescription>
+            <CardTitle>Categories</CardTitle>
             <CardAction>
               <Modal onSubmit={handleSubmit}>
                 <Button className="cursor-pointer">Add Category</Button>
@@ -44,11 +41,8 @@ export default function Home() {
             </CardAction>
           </CardHeader>
           <CardContent>
-            <p>Card Content</p>
+            
           </CardContent>
-          <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter>
         </Card>
       </div>
     </div>

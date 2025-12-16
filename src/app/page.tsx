@@ -8,13 +8,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Category } from "@/type/Category";
+import { TCategory } from "@/type/Category";
+import { ArrowRight, ChevronDown, ChevronRight, Plus } from "lucide-react";
 import { useState } from "react";
 
 
 
 export default function Home() {
-  const [categories, setCategories] = useState<Category[]>([
+  const [categories, setCategories] = useState<TCategory[]>([
     { id: 1, name: 'Category 1', parentId: null },
     { id: 2, name: 'Category 2', parentId: 1 },
     { id: 3, name: 'Category 3', parentId: 2 },
@@ -22,9 +23,11 @@ export default function Home() {
     { id: 4, name: 'Category 5', parentId: null },
   ]);
 
-  const handleSubmit = (data: Category) => {
-    setCategories([...categories, data])
-  }
+  
+
+  const [isOpenModal, setIsOpenModal] = useState(false)
+
+  
 
 
 
@@ -35,13 +38,26 @@ export default function Home() {
           <CardHeader>
             <CardTitle>Categories</CardTitle>
             <CardAction>
-              <Modal onSubmit={handleSubmit}>
+              <Modal parentId={null} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} categories={categories} setCategories={setCategories} >
                 <Button className="cursor-pointer">Add Category</Button>
               </Modal>
             </CardAction>
           </CardHeader>
           <CardContent>
-            
+            <ul>
+              <li className="font-semibold cursor-pointer"><div className="flex rounded hover:bg-gray-50 py-2 items-center justify-between"><div className="flex items-center"><ChevronRight height={15} /> Category</div> <Modal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} categories={categories} setCategories={setCategories} parentId={1}><Plus height={15} /></Modal></div>
+                <ul className="ml-6">
+                  <li className="font-semibold cursor-pointer"><div className="flex rounded hover:bg-gray-50 py-2 items-center"><ChevronRight height={15} /> Category</div></li>
+                  <li className="font-semibold cursor-pointer"><div className="flex rounded hover:bg-gray-50 py-2 items-center"><ChevronRight height={15} /> Category</div>
+                    <ul className="ml-6">
+                      <li className="font-semibold cursor-pointer"><div className="flex rounded hover:bg-gray-50 py-2 items-center"><ChevronRight height={15} /> Category</div></li>
+                      <li className="font-semibold cursor-pointer"><div className="flex rounded hover:bg-gray-50 py-2 items-center"><ChevronRight height={15} /> Category</div></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li className="font-semibold cursor-pointer"><div className="flex rounded hover:bg-gray-50 py-2 items-center"><ChevronRight height={15} /> Category</div></li>
+            </ul>
           </CardContent>
         </Card>
       </div>

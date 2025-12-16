@@ -23,11 +23,21 @@ export default function Home() {
     { id: 4, name: 'Category 5', parentId: null },
   ]);
 
-  
+
 
   const [isOpenModal, setIsOpenModal] = useState(false)
 
-  
+  const treeData = (parentId: number | null = null) => {
+    return categories.filter(category => category.parentId === parentId).map((categoryItem, index) => (
+        <li key={index} className="font-semibold cursor-pointer"><div className="flex rounded hover:bg-gray-50 py-2 items-center justify-between"><div className="flex items-center"><ChevronRight height={15} /> {categoryItem?.name}</div> <Modal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} categories={categories} setCategories={setCategories} parentId={1}><Plus height={15} /></Modal></div>
+          <ul className="ml-6">
+            {treeData(categoryItem?.id)}
+          </ul>
+        </li>
+    ));
+  }
+
+  // console.log(treeData(), 'category data')
 
 
 
@@ -45,18 +55,7 @@ export default function Home() {
           </CardHeader>
           <CardContent>
             <ul>
-              <li className="font-semibold cursor-pointer"><div className="flex rounded hover:bg-gray-50 py-2 items-center justify-between"><div className="flex items-center"><ChevronRight height={15} /> Category</div> <Modal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} categories={categories} setCategories={setCategories} parentId={1}><Plus height={15} /></Modal></div>
-                <ul className="ml-6">
-                  <li className="font-semibold cursor-pointer"><div className="flex rounded hover:bg-gray-50 py-2 items-center"><ChevronRight height={15} /> Category</div></li>
-                  <li className="font-semibold cursor-pointer"><div className="flex rounded hover:bg-gray-50 py-2 items-center"><ChevronRight height={15} /> Category</div>
-                    <ul className="ml-6">
-                      <li className="font-semibold cursor-pointer"><div className="flex rounded hover:bg-gray-50 py-2 items-center"><ChevronRight height={15} /> Category</div></li>
-                      <li className="font-semibold cursor-pointer"><div className="flex rounded hover:bg-gray-50 py-2 items-center"><ChevronRight height={15} /> Category</div></li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-              <li className="font-semibold cursor-pointer"><div className="flex rounded hover:bg-gray-50 py-2 items-center"><ChevronRight height={15} /> Category</div></li>
+              {treeData()}
             </ul>
           </CardContent>
         </Card>

@@ -1,9 +1,9 @@
+"use client"
 import React, {ReactNode} from 'react';
 import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -14,33 +14,26 @@ import { Label } from "@radix-ui/react-label";
 import { Button } from '../ui/button';
 
 interface ModalType {
-    children: ReactNode
+    children: ReactNode,
+    handleSubmit: () => void
 }
 
-const Modal: React.FC<ModalType> = ({children}) => {
+const Modal: React.FC<ModalType> = ({handleSubmit,children}) => {
     return (
         <Dialog>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <DialogTrigger asChild>
                     {children}
                     
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-106.25">
                     <DialogHeader>
-                        <DialogTitle>Edit profile</DialogTitle>
-                        <DialogDescription>
-                            Make changes to your profile here. Click save when you&apos;re
-                            done.
-                        </DialogDescription>
+                        <DialogTitle>Add Category</DialogTitle>
                     </DialogHeader>
                     <div className="grid gap-4">
                         <div className="grid gap-3">
                             <Label htmlFor="name-1">Name</Label>
                             <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
-                        </div>
-                        <div className="grid gap-3">
-                            <Label htmlFor="username-1">Username</Label>
-                            <Input id="username-1" name="username" defaultValue="@peduarte" />
                         </div>
                     </div>
                     <DialogFooter>

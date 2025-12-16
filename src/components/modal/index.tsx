@@ -12,16 +12,19 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import { Button } from '../ui/button';
+import { useForm } from 'react-hook-form';
+import { Category } from '@/type/Category';
 
 interface ModalType {
     children: ReactNode,
-    handleSubmit: () => void
+    onSubmit: (data:Category) => void
 }
 
-const Modal: React.FC<ModalType> = ({handleSubmit,children}) => {
+const Modal: React.FC<ModalType> = ({onSubmit,children}) => {
+    const {handleSubmit} = useForm<Category>()
     return (
         <Dialog>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <DialogTrigger asChild>
                     {children}
                     

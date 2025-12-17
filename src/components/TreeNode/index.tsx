@@ -30,7 +30,6 @@ export default function TreeNode({ category, categories, setCategories }: Props)
 
     return (
         <li className="ml-4">
-            {/* <div className="flex items-center gap-2"> */}
             <div className="flex items-center justify-between">
                 <div>
                     {hasChildren.length > 0 && (
@@ -65,7 +64,6 @@ export default function TreeNode({ category, categories, setCategories }: Props)
 
                 </div>
             </div>
-            {/* </div> */}
 
             {
                 open && hasChildren.length > 0 && (

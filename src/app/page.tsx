@@ -23,10 +23,6 @@ export default function Home() {
     { id: 5, name: 'Category 5', parentId: null },
   ]);
 
-  console.log(categories)
-  // console.log(treeData(), 'category data')
-
-
 
   return (
     <div className="max-w-6xl my-20 mx-auto">

@@ -19,13 +19,25 @@ export default function TreeNode({ category, categories, setCategories }: Props)
     const hasChildren = categories.filter(categoryData => categoryData.parentId === category.id)
 
     const deleteNode = (id: number) => {
-        const getAllChildren = (parentId: number): number[] =>
-            categories
-                .filter(singleCategory => singleCategory.parentId === parentId)
-                .flatMap(singleCategory => [singleCategory.id, ...getAllChildren(singleCategory.id)])
+        const idsToDelete = new Set<number>([id])
+        let foundNew = true
 
-        const ids = [id, ...getAllChildren(id)]
-        setCategories(prev => prev.filter(n => !ids.includes(n.id)))
+        while (foundNew) {
+            foundNew = false
+
+            categories.forEach(cat => {
+                if (cat.parentId !== null && idsToDelete.has(cat.parentId)) {
+                    if (!idsToDelete.has(cat.id)) {
+                        idsToDelete.add(cat.id)
+                        foundNew = true
+                    }
+                }
+            })
+        }
+
+        setCategories(prev =>
+            prev.filter(cat => !idsToDelete.has(cat.id))
+        )
     }
 
     return (

@@ -2,7 +2,9 @@
 import { TCategory } from "@/type/Category"
 import { useState } from "react"
 import Modal from "../modal"
-import { ChevronDown, ChevronRight, Plus, Trash } from "lucide-react"
+import { ChevronDown, ChevronRight, Ellipsis, Plus, Trash } from "lucide-react"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
+import { Button } from "../ui/button"
 
 interface Props {
     category: TCategory
@@ -12,6 +14,7 @@ interface Props {
 
 export default function TreeNode({ category, categories, setCategories }: Props) {
     const [open, setOpen] = useState(true)
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const hasChildren = categories.filter(categoryData => categoryData.parentId === category.id)
 
@@ -28,46 +31,56 @@ export default function TreeNode({ category, categories, setCategories }: Props)
     return (
         <li className="ml-4">
             {/* <div className="flex items-center gap-2"> */}
-                <div className="flex items-center justify-between">
-                    <div>
-                        {hasChildren.length > 0 && (
-                            <button onClick={() => setOpen(!open)} className="cursor-pointer">
-                                {open ? <ChevronDown height={15} /> : <ChevronRight height={15} />}
-                            </button>
-                        )}
-
-                        <span>{category.name}</span>
-                    </div>
-                    <div className="space-x-2 space-y-1">
-                        <Modal parentId={category.id} setCategories={setCategories}>
-                            <button className="p-2 bg-blue-500 cursor-pointer rounded text-white"><Plus height={15} /></button>
-                        </Modal>
-                        <button
-                            onClick={() => {
-                                if (confirm("Are you sure deleted this category?")) {
-                                    deleteNode(category.id)
-                                }
-                            }}
-                            className="p-2 bg-red-500 cursor-pointer rounded"
-                        >
-                            <Trash height={15} className="text-white" />
+            <div className="flex items-center justify-between">
+                <div>
+                    {hasChildren.length > 0 && (
+                        <button onClick={() => setOpen(!open)} className="cursor-pointer">
+                            {open ? <ChevronDown height={15} /> : <ChevronRight height={15} />}
                         </button>
-                    </div>
+                    )}
+
+                    <span>{category.name}</span>
                 </div>
+                <div className="space-x-2 space-y-1">
+                    <DropdownMenu modal={false}>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" className="cursor-pointer" onClick={() => setIsMenuOpen(!isMenuOpen)}><Ellipsis height={15} /></Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-40" align="end">
+                            <DropdownMenuGroup className="bg-gray-50 border border-gray-100 rounded-lg my-1">
+                                <DropdownMenuItem asChild>
+                                    <Modal parentId={category.id} setCategories={setCategories}>
+                                        <button type="button" className="cursor-pointer px-3 py-2 hover:bg-gray-200 text-left w-full">Add Category</button>
+                                    </Modal>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="cursor-pointer px-3 py-2 hover:bg-red-500 hover:text-white text-left w-full" onClick={() => {
+                                    if (confirm("Are you sure deleted this category?")) {
+                                        deleteNode(category.id)
+                                    }
+                                }}>Delete Category</DropdownMenuItem>
+                            </DropdownMenuGroup>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+
+
+                </div>
+            </div>
             {/* </div> */}
 
-            {open && hasChildren.length > 0 && (
-                <ul className="ml-4">
-                    {hasChildren.map(child => (
-                        <TreeNode
-                            key={child.id}
-                            category={child}
-                            categories={categories}
-                            setCategories={setCategories}
-                        />
-                    ))}
-                </ul>
-            )}
-        </li>
+            {
+                open && hasChildren.length > 0 && (
+                    <ul className="ml-4">
+                        {hasChildren.map(child => (
+                            <TreeNode
+                                key={child.id}
+                                category={child}
+                                categories={categories}
+                                setCategories={setCategories}
+                            />
+                        ))}
+                    </ul>
+                )
+            }
+        </li >
     )
 }

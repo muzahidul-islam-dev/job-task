@@ -1,5 +1,5 @@
 "use client"
-import React, { ReactNode } from 'react';
+import React, { Dispatch, ReactNode, SetStateAction, useState } from 'react';
 import {
     Dialog,
     DialogClose,
@@ -18,29 +18,29 @@ import { TCategory } from '@/type/Category';
 interface ModalType {
     children: ReactNode;
     parentId: number | null;
-    setIsOpenModal: (openModalData: boolean) => void
-    isOpenModal?: boolean;
     categories: TCategory[];
-    setCategories: (data: TCategory[]) => void;
+    setCategories: Dispatch<SetStateAction<TCategory[]>>;
 }
 
-const Modal: React.FC<ModalType> = ({ parentId, setIsOpenModal, isOpenModal, categories, setCategories, children }) => {
+const Modal: React.FC<ModalType> = ({ parentId, categories, setCategories, children }) => {
     const { handleSubmit, register, formState: { errors } } = useForm<TCategory>()
+    const [isOpenModal, setIsOpenModal] = useState(false);
 
+    console.log(parentId, 'clicked parent ids')
     const onSubmit = (data: TCategory) => {
         const categoryData: TCategory = {
-            id: categories?.length,
+            id: categories?.length + 1,
             name: data?.name,
             parentId: data?.parentId || null
         }
-        setCategories([...categories, categoryData])
+        console.log(parentId, 'this is parent id')
+        setCategories((prev: TCategory[]) => [...prev, categoryData])
         setIsOpenModal(false)
     }
     return (
         <Dialog onOpenChange={setIsOpenModal} open={isOpenModal}>
             <DialogTrigger asChild>
                 {children}
-
             </DialogTrigger>
             <DialogContent className="sm:max-w-106.25">
                 <form onSubmit={handleSubmit(onSubmit)}>

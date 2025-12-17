@@ -2,7 +2,6 @@
 import { TCategory } from "@/type/Category"
 import { useState } from "react"
 import Modal from "../modal"
-import { Button } from "../ui/button"
 import { ChevronRight, Plus, Trash } from "lucide-react"
 
 interface Props {

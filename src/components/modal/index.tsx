@@ -21,7 +21,7 @@ const Modal: React.FC<ModalType> = ({parentId,setCategories,children}) => {
     setCategories(prevData => [...prevData, {
         id: prevData.length + 1,
         name: data?.name,
-        parentId: parentId
+        parentId: parentId ? Number(parentId) : null
     }]);
     reset()
     setOpen(false)
@@ -39,14 +39,14 @@ const Modal: React.FC<ModalType> = ({parentId,setCategories,children}) => {
 
           <Input
             {...register("name", { required: true })}
-            placeholder="Category Name"
+            placeholder="Category Name" className="mt-4"
           />
           {errors.name && (
             <p className="text-red-500">Name is required</p>
           )}
 
           <DialogFooter className="mt-4">
-            <Button type="submit">Save</Button>
+            <Button type="submit" className="cursor-pointer">Save</Button>
           </DialogFooter>
         </form>
       </DialogContent>

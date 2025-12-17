@@ -3,7 +3,7 @@ import { TCategory } from "@/type/Category"
 import { useState } from "react"
 import Modal from "../modal"
 import { Button } from "../ui/button"
-import { ArrowBigLeftIcon, ChevronRight, Plus } from "lucide-react"
+import { ChevronRight, Plus, Trash } from "lucide-react"
 
 interface Props {
     category: TCategory
@@ -19,8 +19,8 @@ export default function TreeNode({ category, categories, setCategories }: Props)
     const deleteNode = (id: number) => {
         const getAllChildren = (parentId: number): number[] =>
             categories
-                .filter(n => n.parentId === parentId)
-                .flatMap(n => [n.id, ...getAllChildren(n.id)])
+                .filter(singleCategory => singleCategory.parentId === parentId)
+                .flatMap(singleCategory => [singleCategory.id, ...getAllChildren(singleCategory.id)])
 
         const ids = [id, ...getAllChildren(id)]
         setCategories(prev => prev.filter(n => !ids.includes(n.id)))
@@ -28,7 +28,7 @@ export default function TreeNode({ category, categories, setCategories }: Props)
 
     return (
         <li className="ml-4">
-            <div className="flex items-center gap-2">
+            {/* <div className="flex items-center gap-2"> */}
                 <div className="flex items-center justify-between">
                     <div>
                         {hasChildren.length > 0 && (
@@ -39,28 +39,26 @@ export default function TreeNode({ category, categories, setCategories }: Props)
 
                         <span>{category.name}</span>
                     </div>
-                    <div>
+                    <div className="space-x-2 space-y-1">
                         <Modal parentId={category.id} setCategories={setCategories}>
-                            <Button><Plus /></Button>
+                            <button className="p-2 bg-blue-500 cursor-pointer rounded text-white"><Plus height={15} /></button>
                         </Modal>
+                        <button
+                            onClick={() => {
+                                if (confirm("Are you sure deleted this category?")) {
+                                    deleteNode(category.id)
+                                }
+                            }}
+                            className="p-2 bg-red-500 cursor-pointer rounded"
+                        >
+                            <Trash height={15} className="text-white" />
+                        </button>
                     </div>
                 </div>
-
-
-
-                <button
-                    onClick={() => {
-                        if (confirm("Delete this node and all children?")) {
-                            deleteNode(category.id)
-                        }
-                    }}
-                >
-                    ⋮ Delete
-                </button>
-            </div>
+            {/* </div> */}
 
             {open && hasChildren.length > 0 && (
-                <ul>
+                <ul className="ml-4">
                     {hasChildren.map(child => (
                         <TreeNode
                             key={child.id}

@@ -2,7 +2,7 @@
 import { TCategory } from "@/type/Category"
 import { useState } from "react"
 import Modal from "../modal"
-import { ChevronRight, Plus, Trash } from "lucide-react"
+import { ChevronDown, ChevronRight, Plus, Trash } from "lucide-react"
 
 interface Props {
     category: TCategory
@@ -32,7 +32,7 @@ export default function TreeNode({ category, categories, setCategories }: Props)
                     <div>
                         {hasChildren.length > 0 && (
                             <button onClick={() => setOpen(!open)} className="cursor-pointer">
-                                <ChevronRight height={15} />
+                                {open ? <ChevronDown height={15} /> : <ChevronRight height={15} />}
                             </button>
                         )}
 

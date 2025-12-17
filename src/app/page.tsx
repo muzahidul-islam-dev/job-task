@@ -23,10 +23,6 @@ export default function Home() {
     { id: 5, name: 'Category 5', parentId: null },
   ]);
 
-
-
-  const [isOpenModal, setIsOpenModal] = useState(false)
-
   console.log(categories)
   // console.log(treeData(), 'category data')
 
@@ -39,13 +35,13 @@ export default function Home() {
           <CardHeader>
             <CardTitle>Categories</CardTitle>
             <CardAction>
-              <Modal parentId={null} categories={categories} setCategories={setCategories} >
+              <Modal parentId={null} setCategories={setCategories} >
                 <Button className="cursor-pointer">Add Category</Button>
               </Modal>
             </CardAction>
           </CardHeader>
           <CardContent>
-            <TreeData categories={categories} parentId={null} setCategories={setCategories} />
+            <TreeData categories={categories} setCategories={setCategories} />
           </CardContent>
         </Card>
       </div>

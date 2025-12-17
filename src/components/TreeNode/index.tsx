@@ -2,8 +2,8 @@
 import { TCategory } from "@/type/Category"
 import { useState } from "react"
 import Modal from "../modal"
-import { ChevronDown, ChevronRight, Ellipsis, Plus, Trash } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
+import { ChevronDown, ChevronRight, Ellipsis } from "lucide-react"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
 import { Button } from "../ui/button"
 
 interface Props {
